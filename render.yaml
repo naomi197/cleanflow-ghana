@@ -1,0 +1,19 @@
+﻿services:
+  - type: web
+    name: cleanflow-ghana-api
+    runtime: python
+    plan: free
+    buildCommand: python -m pip install --upgrade pip && python -m pip install -r requirements.txt
+    startCommand: python -m uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: cleanflow-ghana-db
+          property: connectionString
+      - key: CORS_ORIGINS
+        sync: false
+
+databases:
+  - name: cleanflow-ghana-db
+    plan: free
