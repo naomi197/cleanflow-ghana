@@ -4,7 +4,7 @@ A water-pollution reporting and prioritization API for Ghana.
 
 CleanFlow Ghana is a FastAPI backend for communities and response teams who need to record pollution incidents and sort them by urgency. Each report gets a priority score from the pollutant type and a severity level from 1 to 5.
 
-Developer: [alirezafazeli@live.com](mailto:alirezafazeli@live.com)
+Developer: Alireza Sani · [alirezafazeli@live.com](mailto:alirezafazeli@live.com)
 
 ## Features
 
@@ -91,4 +91,4 @@ tests/
 
 ## Author
 
-Alireza Fazeli — [naomi197](https://github.com/naomi197)
+Alireza Sani — [naomi197](https://github.com/naomi197)
