@@ -1,212 +1,94 @@
 ﻿# CleanFlow Ghana
 
-> A smart water-pollution reporting and prioritization API for Ghana.
+A water-pollution reporting and prioritization API for Ghana.
 
-CleanFlow Ghana is a FastAPI-based backend designed to help communities and response teams report, prioritize, and manage water-pollution incidents.
+CleanFlow Ghana is a FastAPI backend for communities and response teams who need to record pollution incidents and sort them by urgency. Each report gets a priority score from the pollutant type and a severity level from 1 to 5.
 
-The project automatically calculates a priority score for each pollution report based on the pollutant type and severity level. Reports can then be sorted so that the most urgent incidents receive attention first.
+Developer: [alirezafazeli@live.com](mailto:alirezafazeli@live.com)
 
 ## Features
 
-- FastAPI REST API
-- Pollution-report management
-- Automatic priority-score calculation
-- Severity validation from 1 to 5
-- Priority categories:
-  - `critical`
-  - `high`
-  - `medium`
-  - `low`
-- Reports sorted by priority
-- SQLite database support
-- Pydantic request validation
-- Automated tests with pytest
-- Designed for environmental response workflows in Ghana
+- REST API for creating and listing pollution reports
+- Automatic priority score, normalized from 0 to 100
+- Categories: `critical`, `high`, `medium`, and `low`
+- Reports returned in descending priority order
+- SQLite storage, SQLAlchemy, and Pydantic validation
+- Pytest coverage for health, creation, validation, listing, and sorting
+- A small Vite frontend in `cleanflow-ghana-frontend/`
 
-## Project Structure
-```text
-cleanflow-ghana/
-├── app/
-│   ├── models/
-│   ├── routers/
-│   ├── schemas/
-│   └── main.py
-├── tests/
-├── .venv/
-└── README.md
-
-## Technology Stack
+## Technology
 
 - Python 3.12
-- FastAPI
-- SQLAlchemy
-- SQLite
+- FastAPI and Uvicorn
+- SQLAlchemy and SQLite
 - Pydantic
 - Pytest
-- Uvicorn
 
-## Installation
+## Setup
 
-Clone the repository and enter the project directory:
-
-bash
+```bash
 git clone https://github.com/naomi197/cleanflow-ghana.git
 cd cleanflow-ghana
-
-Create and activate a virtual environment on Windows:
-
-powershell
-py -3.12 -m venv .venv
-.\.venv\Scripts\Activate.ps1
-
-Install the dependencies:
-
-powershell
+python -m venv .venv
+source .venv/bin/activate
 python -m pip install -r requirements.txt
-
-## Running the API
-
-Start the development server:
-
-powershell
 python -m uvicorn app.main:app --reload
+```
 
-The API will be available at:
+On Windows PowerShell, activate the environment with `.\.venv\Scripts\Activate.ps1`.
 
-text
-http://127.0.0.1:8000
+The API is at http://127.0.0.1:8000. Interactive docs are at http://127.0.0.1:8000/docs.
 
-Interactive API documentation:
+## API
 
-text
-http://127.0.0.1:8000/docs
+| Method | Path | Purpose |
+| --- | --- | --- |
+| GET | `/health` | Check that the API is running |
+| POST | `/reports` | Create a report and assign its priority |
+| GET | `/reports` | List reports by descending `priority_score` |
+| GET | `/reports/{report_id}` | Read one report |
 
-Alternative documentation:
-
-text
-http://127.0.0.1:8000/redoc
-
-## API Endpoints
-
-### Health Check
-
-http
-GET /health
-
-Checks whether the API is running.
-
-### Create a Pollution Report
-
-http
-POST /reports
-
-Example request:
-
-json
+```json
 {
   "location": "Accra drainage channel",
   "pollutant_type": "chemical",
   "severity": 5,
   "description": "Severe chemical discharge"
 }
+```
 
-The API calculates the priority score and assigns a priority category automatically.
+## Priority
 
-### List Pollution Reports
+The score combines pollutant type and severity, then maps to `critical`, `high`, `medium`, or `low`. Response teams can take the highest-scoring incidents first.
 
-http
-GET /reports
+## Tests
 
-Reports are returned in descending order of `priority_score`.
+```bash
+python -m pytest tests -q
+```
 
-### Get a Specific Report
+The suite covers the health check, report creation, invalid severity, listing, priority sorting, and a missing report.
 
-http
-GET /reports/{report_id}
+## Project structure
 
-Returns the details of a single pollution report.
+```text
+app/
+├── models/
+├── routers/
+├── schemas/
+├── services/
+└── main.py
+cleanflow-ghana-frontend/
+tests/
+```
 
-## Priority System
+## Related work
 
-The prioritization engine combines:
-
-1. Pollutant type
-2. Severity level
-
-The final score is normalized to a range from `0` to `100`.
-
-Each report is assigned one of the following categories:
-
-text
-critical
-high
-medium
-low
-
-This allows response teams to focus first on incidents with the highest potential environmental impact.
-
-## Running Tests
-
-Run the complete test suite:
-
-powershell
-python -m pytest .\tests -q
-
-Current test coverage includes:
-
-- API health check
-- Successful report creation
-- Invalid severity validation
-- Report listing
-- Priority-based sorting
-- Missing-report handling
-
-Expected result:
-
-text
-6 passed
-
-A Starlette/httpx deprecation warning may appear. It does not currently cause test failure.
-
-## Hackathon Value
-
-CleanFlow Ghana addresses a practical environmental challenge:
-
-- Makes pollution reporting structured and consistent
-- Helps prioritize limited response resources
-- Provides a foundation for community-based reporting
-- Supports data-driven environmental intervention
-- Can be extended with geolocation, dashboards, notifications, and analytics
-
-## Future Roadmap
-
-- Add user authentication and role-based access
-- Add GPS coordinates and map visualization
-- Add image upload for pollution evidence
-- Add a dashboard for authorities and NGOs
-- Add email or SMS notifications for critical reports
-- Add PostgreSQL support for production deployment
-- Add deployment with Docker
-- Add historical pollution analytics
-- Add multilingual support for local communities
-
-## Contributing
-
-Contributions are welcome.
-
-1. Create a feature branch.
-2. Implement and test your changes.
-3. Run the test suite.
-4. Submit a pull request.
-
-## License
-
-This project is currently intended for hackathon and educational development.
+- [ClimaScope](https://github.com/naomi197/climascope) — live climate observatory for Android and the browser
+- [Water Network Optimizer](https://github.com/naomi197/water-network-optimizer) — Hazen-Williams pipe sizing
+- [TreeGrow](https://github.com/naomi197/treegrow-android) — Android app for virtual tree planting
+- [Climate Assistant](https://github.com/naomi197/weather-climate-assistant) — Android weather and air-quality client
 
 ## Author
 
-**Alireza Fazeli**
-
-Automation & Software Engineer | Python, Web3 & Computational Civil Engineering
-
-GitHub: [@naomi197](https://github.com/naomi197)
+Alireza Fazeli — [naomi197](https://github.com/naomi197)
