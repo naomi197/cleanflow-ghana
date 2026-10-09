@@ -3,9 +3,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.db.session import Base, engine
-from app.models.pollution_report import PollutionReport
+from app.db.migrate import ensure_schema
+from app.db.session import SessionLocal
 from app.routers.reports import router as reports_router
+from app.services.seed import seed_samples_if_empty
 
 
 def get_cors_origins() -> list[str]:
@@ -24,7 +25,9 @@ def get_cors_origins() -> list[str]:
     ]
 
 
-Base.metadata.create_all(bind=engine)
+ensure_schema()
+with SessionLocal() as session:
+    seed_samples_if_empty(session)
 
 app = FastAPI(
     title="CleanFlow Ghana API",

@@ -1,6 +1,6 @@
 ﻿from datetime import datetime, timezone
 
-from sqlalchemy import DateTime, Float, Integer, String, Text
+from sqlalchemy import Boolean, DateTime, Float, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.db.session import Base
@@ -16,16 +16,12 @@ class PollutionReport(Base):
     latitude: Mapped[float | None] = mapped_column(Float, nullable=True)
     longitude: Mapped[float | None] = mapped_column(Float, nullable=True)
     description: Mapped[str | None] = mapped_column(Text, nullable=True)
-    status: Mapped[str] = mapped_column(
-        String(50),
-        nullable=False,
-        default="pending",
-    )
-    priority_score: Mapped[float] = mapped_column(
-        Float,
-        nullable=False,
-        default=0.0,
-    )
+    reporter_contact: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    status: Mapped[str] = mapped_column(String(50), nullable=False, default="open")
+    workflow_status: Mapped[str] = mapped_column(String(50), nullable=False, default="open")
+    priority_label: Mapped[str] = mapped_column(String(50), nullable=False, default="low")
+    priority_score: Mapped[float] = mapped_column(Float, nullable=False, default=0.0)
+    is_sample: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         nullable=False,

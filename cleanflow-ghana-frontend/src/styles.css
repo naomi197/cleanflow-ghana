@@ -134,9 +134,93 @@ button:hover {
   background: #fff0c2;
 }
 
+.badge.high {
+  color: #9a3412;
+  background: #ffedd5;
+}
+
 .badge.critical {
   color: #a12626;
   background: #ffdcdc;
+}
+
+.stats,
+.layout,
+.coords,
+.filters,
+.actions,
+.map-list {
+  display: grid;
+  gap: 12px;
+}
+
+.stats {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-bottom: 24px;
+}
+
+.stat {
+  padding: 16px;
+  border-radius: 16px;
+  background: #143528;
+  color: #f4fbf6;
+}
+
+.stat strong {
+  display: block;
+  font-size: 1.6rem;
+}
+
+.layout {
+  grid-template-columns: minmax(280px, 0.9fr) minmax(0, 1.3fr);
+  align-items: start;
+}
+
+.coords {
+  grid-template-columns: 1fr 1fr;
+}
+
+.filters,
+.actions {
+  grid-template-columns: repeat(3, minmax(0, max-content));
+}
+
+.secondary,
+.actions button.secondary {
+  color: #143528;
+  background: #e7f3ea;
+}
+
+.actions button.active {
+  background: #143528;
+}
+
+.note,
+.map-list span {
+  color: #4d6256;
+  font-size: 0.92rem;
+}
+
+.map-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.map-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  border-top: 1px solid #e2ebe3;
+}
+
+@media (max-width: 800px) {
+  .stats,
+  .layout,
+  .coords {
+    grid-template-columns: 1fr;
+  }
 }
 
 .error {
